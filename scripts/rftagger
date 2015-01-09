@@ -1,0 +1,17 @@
+#!/bin/sh
+
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+
+BIN=$DIR/../RFTagger/bin
+CMD=$DIR/../RFTagger/cmd
+LIB=$DIR/../RFTagger/lib
+
+TAGGER=${BIN}/rft-annotate
+TOKENIZER=${CMD}/tokenize.perl
+ABBR_LIST=${LIB}/german-abbreviations
+PARFILE=${LIB}/german.par
+
+cat $* |
+	$TAGGER $PARFILE |
+	$CMD/filter-german-rft-tags.perl |
+	$CMD/lemmatize-german-rftagger-output.perl $LIB/german-rft-tagger-lemma-lexicon.txt
